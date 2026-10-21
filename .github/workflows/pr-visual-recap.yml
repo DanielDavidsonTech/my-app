@@ -1023,6 +1023,19 @@ jobs:
             echo '__RECAP_READBACK_REASON_EOF__'
           } >> "$GITHUB_OUTPUT"
 
+      
+      - name: Diagnose recap page response
+        if: always() && !cancelled() && steps.url.outputs.ok == 'true'
+        env:
+          PLAN_URL: ${{ steps.url.outputs.plan_url }}
+        run: |
+          echo "Checking published recap page..."
+          curl -sS -L --max-time 20 \
+            -o /tmp/recap-page.html \
+            -w 'HTTP=%{http_code} TIME=%{time_total} FINAL_URL=%{url_effective}\n' \
+            "${PLAN_URL}?recapScreenshot=1&recapScreenshotTheme=light" \
+            || echo "Recap page request failed or timed out."
+
       - name: Screenshot + upload
         id: shot
         if: always() && !cancelled() && steps.url.outputs.ok == 'true'
