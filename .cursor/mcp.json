@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "local-agent-native-localhost": {
+      "url": "http://localhost:8080/mcp"
+    },
+    "plan": {
+      "url": "https://plan.agent-native.com/mcp"
+    }
+  }
+}
