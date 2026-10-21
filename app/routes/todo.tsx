@@ -77,6 +77,23 @@ export default function TodoPage() {
           <span>{completedCount} completed</span>
         </div>
 
+        <div
+          className="mt-2 h-2 overflow-hidden rounded-full bg-slate-800"
+          role="progressbar"
+          aria-label="Task completion"
+          aria-valuemin={0}
+          aria-valuemax={tasks.length}
+          aria-valuenow={completedCount}
+          aria-valuetext={`${completedCount} of ${tasks.length} tasks completed`}
+        >
+          <div
+            className="h-full rounded-full bg-violet-500 transition-[width]"
+            style={{
+              width: `${tasks.length === 0 ? 0 : (completedCount / tasks.length) * 100}%`,
+            }}
+          />
+        </div>
+
         <div className="mt-4 space-y-3">
           {isLoading ? (
             <p className="text-slate-400">Loading tasks…</p>
