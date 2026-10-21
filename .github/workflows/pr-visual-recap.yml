@@ -320,6 +320,13 @@ jobs:
           echo "RECAP_CLI=$RECAP_CLI" >> "$GITHUB_ENV"
           echo "RECAP_PLAYWRIGHT=$RUNNER_TEMP/recap-cli/node_modules/.bin/playwright" >> "$GITHUB_ENV"
 
+      - uses: pnpm/action-setup@0e279bb959325dab635dd2c09392533439d90093 # v6.0.8
+        if: needs.gate.outputs.agent == 'openai-compatible' && steps.cli.outputs.local != 'true'
+
+      - name: Install repository dependencies for OpenAI-compatible runtime
+        if: needs.gate.outputs.agent == 'openai-compatible' && steps.cli.outputs.local != 'true'
+        run: pnpm install --frozen-lockfile --ignore-scripts
+
       - name: Install OpenAI-compatible provider runtime
         if: needs.gate.outputs.agent == 'openai-compatible' && steps.cli.outputs.local != 'true'
         env:
